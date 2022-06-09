@@ -7,11 +7,11 @@ const usersRouter = Router();
 
 
 //Route should only receive a request, call another file, return a response. 
-usersRouter.get("/", async (request, response) => {
-    const usersRepository = getCustomRepository(UsersRepository);
-    const users = await usersRepository.find();
-    return response.json(users);
-});
+// usersRouter.get("/", async (request, response) => {
+//     const usersRepository = getCustomRepository(UsersRepository);
+//     const users = await usersRepository.find();
+//     return response.json(users);
+// });
 
 usersRouter.post("/", async (request, response) => {
     try {
@@ -19,6 +19,8 @@ usersRouter.post("/", async (request, response) => {
 
         const CreateUser = new CreateUserService();
         const user = await CreateUser.execute({ name, email, password });
+
+        //delete user.password; //(Do something to not show hashed password on creation)
 
         return response.json(user);
     } catch (err) {

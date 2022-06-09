@@ -3,11 +3,18 @@ import { getCustomRepository } from "typeorm";
 import RpersRepository from "../repositories/RpersRepository";
 import CreateRperService from "../services/CreateRperService";
 
+import ensureAuthenticated from "../middlewares/ensureAuthenticated";
+
 const rpersRouter = Router();
 
+//Middleware to ensure the user is logged in before listing RPERs and Creating new one.
+rpersRouter.use(ensureAuthenticated);
 
 //Route should only receive a request, call another file, return a response. 
 rpersRouter.get("/", async (request, response) => {
+    //User ID is availabe in all routes that use ensureAuthenticated:
+    //console.log(request.user);
+
     const rpersRepository = getCustomRepository(RpersRepository);
     const rpers = await rpersRepository.find();
     return response.json(rpers);
