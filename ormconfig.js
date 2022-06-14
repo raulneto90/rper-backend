@@ -19,10 +19,10 @@ if (process.env.DATABASE_URL === "postgres://postgres:docker@localhost:5432/rper
         "url": process.env.DATABASE_URL,
         "ssl": true, "extra": { "ssl": { "rejectUnauthorized": false } },
         "entities": [
-            "./dist/models/*.ts"
+            "./dist/models/*.js"
         ],
         "migrations": [
-            "./dist/database/migrations/*.ts"
+            "./dist/database/migrations/*.js"
         ],
         "cli": {
             "migrationsDir": "./src/database/migrations"
