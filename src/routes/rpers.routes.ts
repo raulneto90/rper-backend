@@ -21,22 +21,12 @@ rpersRouter.get("/", async (request, response) => {
 });
 
 rpersRouter.post("/", async (request, response) => {
-    try {
-        const { name, coordinator_id } = request.body;
+    const { name, coordinator_id } = request.body;
 
-        const CreateRper = new CreateRperService();
-        const rper = await CreateRper.execute({ name, coordinator_id });
+    const CreateRper = new CreateRperService();
+    const rper = await CreateRper.execute({ name, coordinator_id });
 
-        return response.json(rper);
-    } catch (err) {
-        if (err instanceof Error) {
-            return response.status(400).json(err.message);
-        } else {
-            console.log("Unexpected Error", err);
-            return response.status(400).json("Unexpected Error");
-        }
-    }
-
+    return response.json(rper);
 });
 
 export default rpersRouter;

@@ -2,6 +2,9 @@ import { getCustomRepository } from 'typeorm'
 import Rper from '../models/Rper';
 import RpersRepository from '../repositories/RpersRepository';
 
+import AppError from '../errors/AppError';
+
+
 interface RequestDTO {
     name: string;
     coordinator_id: string;
@@ -14,7 +17,7 @@ class CreateRperService {
         const findRperWithSameName = await rpersRepository.findRperByName(name);
 
         if (findRperWithSameName) {
-            throw Error("RPER with same name already exists.");
+            throw new AppError("RPER with same name already exists.");
         }
 
         const rper = rpersRepository.create({

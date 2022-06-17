@@ -19,41 +19,27 @@ usersRouter.get("/", async (request, response) => {
 });
 
 usersRouter.post("/", async (request, response) => {
-    try {
-        const { name, email, password } = request.body;
+    const { name, email, password } = request.body;
 
-        const CreateUser = new CreateUserService();
-        const user = await CreateUser.execute({ name, email, password });
+    const CreateUser = new CreateUserService();
+    const user = await CreateUser.execute({ name, email, password });
 
-        //delete user.password; //(Do something to not show hashed password on creation)
+    //delete user.password; //(Do something to not show hashed password on creation)
 
-        return response.json(user);
-    } catch (err) {
-        if (err instanceof Error) {
-            return response.status(400).json(err.message);
-        } else {
-            console.log("Unexpected Error", err);
-            return response.status(400).json("Unexpected Error");
-        }
-    }
+    return response.json(user);
 });
 
 usersRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'), async (request, response) => {
     //console.log(request.file);
     // return response.json({ ok: true });
 
-    try {
-        const updateUserAvatar = new UpdateUserAvatarService();
+    const updateUserAvatar = new UpdateUserAvatarService();
+    if (request.file) {
         const user = await updateUserAvatar.execute({
             user_id: request.user.id,
             avatarFilename: request.file.filename,
         });
-
         return response.json({ user });
-
-    } catch (err) {
-        console.log("Unexpected Error", err);
-        return response.status(400).json("Unexpected Error");
     }
 });
 
