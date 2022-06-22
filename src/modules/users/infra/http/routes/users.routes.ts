@@ -15,7 +15,12 @@ const upload = multer(uploadConfig);
 usersRouter.get("/", async (request, response) => {
     const usersRepository = getCustomRepository(UsersRepository);
     const users = await usersRepository.find();
+    //Remove password of all users to not return encrypted password
+    users.forEach(user => {
+        delete user.password;
+    });
     return response.json(users);
+
 });
 
 usersRouter.post("/", async (request, response) => {
@@ -24,12 +29,7 @@ usersRouter.post("/", async (request, response) => {
     const CreateUser = new CreateUserService();
     const user = await CreateUser.execute({ name, email, password });
 
-    //delete user.password; //(Do something to not show hashed password on creation)
-    //const userNoPassword = {id: user.user_id, name: user.name, }
-    //delete user.password;
-
-
-
+    delete user.password;
     return response.json(user);
 });
 
@@ -43,6 +43,7 @@ usersRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'), async
             user_id: request.user.id,
             avatarFilename: request.file.filename,
         });
+        delete user.password;
         return response.json({ user });
     }
 });

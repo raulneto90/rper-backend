@@ -1,8 +1,8 @@
 // import { getCustomRepository } from 'typeorm'
 // import UsersRepository from '../repositories/UsersRepository';
 
-import { getRepository } from 'typeorm'
-import User from '../infra/typeorm/entities/User';
+import { getRepository } from 'typeorm';
+import User from '@modules/users/infra/typeorm/entities/User';
 import { hash } from 'bcryptjs';
 
 import AppError from '@shared/errors/AppError';
@@ -15,27 +15,7 @@ interface RequestDTO {
 
 
 class CreateUserService {
-    //Dependecy Inversion - SOLID
-    // private usersRepository: UsersRepository;
-    // constructor(usersRepository: UsersRepository) {
-    //     this.usersRepository = usersRepository;
-    // }
-
     public async execute({ name, email, password }: RequestDTO): Promise<User> {
-        //Using Cystom Repository
-        //const usersRepository = getCustomRepository(UsersRepository);
-        //const findUserWithSameEmail = await usersRepository.findUserByEmail(email);
-        // if (findUserWithSameEmail) {
-        //     throw Error("Email already used.");
-        // }
-        // const user = usersRepository.create({
-        //     name,
-        //     email,
-        //     password,
-        // });
-        // await usersRepository.save(user);
-        // return user;
-
         const usersRepository = getRepository(User);
 
         const checkUserExists = await usersRepository.findOne({
@@ -43,6 +23,10 @@ class CreateUserService {
         });
         if (checkUserExists) {
             throw new AppError('Email address already been used.')
+        }
+
+        if (!password) {
+            throw new AppError('A valid password must be inserted.')
         }
 
         const hashedPassword = await hash(password, 8);

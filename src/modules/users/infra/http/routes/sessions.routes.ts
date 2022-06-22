@@ -13,8 +13,7 @@ sessionsRouter.post("/", async (request, response) => {
         password
     });
 
-    //delete user.password; Same, remove this information from response.
-
+    delete user.password;
     return response.json({ user, token });
 });
 
