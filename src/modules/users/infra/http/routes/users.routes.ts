@@ -1,12 +1,12 @@
 import { Router } from "express";
-import CreateUserService from "../services/CreateUserService";
-import UpdateUserAvatarService from "../services/UpdateUserAvatarService";
+import CreateUserService from "@modules/users/services/CreateUserService";
+import UpdateUserAvatarService from "@modules/users/services/UpdateUserAvatarService";
 import { getCustomRepository } from "typeorm";
-import UsersRepository from "../repositories/UsersRepository";
+import UsersRepository from "@modules/users/repositories/UsersRepository";
 
 import ensureAuthenticated from "../middlewares/ensureAuthenticated";
 import multer from "multer";
-import uploadConfig from '../config/upload';
+import uploadConfig from '@config/upload';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
@@ -25,6 +25,10 @@ usersRouter.post("/", async (request, response) => {
     const user = await CreateUser.execute({ name, email, password });
 
     //delete user.password; //(Do something to not show hashed password on creation)
+    //const userNoPassword = {id: user.user_id, name: user.name, }
+    //delete user.password;
+
+
 
     return response.json(user);
 });

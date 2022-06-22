@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import dotenv, { config } from "dotenv";
 import 'reflect-metadata';
 import cors from 'cors';
 
@@ -6,10 +6,10 @@ import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 
 import routes from './routes';
-import AppError from "./errors/AppError";
+import AppError from '@shared/errors/AppError';
 
-import uploadConfig from './config/upload';
-import './database';
+import uploadConfig from '@config/upload';
+import '@shared/infra/typeorm';
 
 dotenv.config();
 

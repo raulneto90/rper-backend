@@ -1,4 +1,4 @@
-import Rper from '../models/Rper';
+import Rper from '../infra/typeorm/entities/Rper';
 import { EntityRepository, Repository } from 'typeorm'
 
 @EntityRepository(Rper)

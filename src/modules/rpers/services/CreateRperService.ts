@@ -1,8 +1,8 @@
 import { getCustomRepository } from 'typeorm'
-import Rper from '../models/Rper';
+import Rper from '../infra/typeorm/entities/Rper';
 import RpersRepository from '../repositories/RpersRepository';
 
-import AppError from '../errors/AppError';
+import AppError from '@shared/errors/AppError';
 
 
 interface RequestDTO {

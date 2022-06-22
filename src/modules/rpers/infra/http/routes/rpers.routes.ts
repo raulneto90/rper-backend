@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { getCustomRepository } from "typeorm";
-import RpersRepository from "../repositories/RpersRepository";
-import CreateRperService from "../services/CreateRperService";
+import RpersRepository from "@modules/rpers/repositories/RpersRepository";
+import CreateRperService from "@modules/rpers/services/CreateRperService";
 
-import ensureAuthenticated from "../middlewares/ensureAuthenticated";
+import ensureAuthenticated from "@modules/users/infra/http/middlewares/ensureAuthenticated";
 
 const rpersRouter = Router();
 
