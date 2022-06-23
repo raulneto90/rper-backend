@@ -1,31 +1,33 @@
-import { getCustomRepository } from 'typeorm'
 import Rper from '../infra/typeorm/entities/Rper';
-import RpersRepository from '../repositories/RpersRepository';
+import IRpersRepository from '../repositories/IRpersRepository';
+import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
 
-interface RequestDTO {
+interface IRequestDTO {
     name: string;
     coordinator_id: string;
 }
 
-
+@injectable()
 class CreateRperService {
-    public async execute({ name, coordinator_id }: RequestDTO): Promise<Rper> {
-        const rpersRepository = getCustomRepository(RpersRepository);
-        const findRperWithSameName = await rpersRepository.findRperByName(name);
+
+    constructor(
+        @inject('RpersRepository')
+        private rpersRepository: IRpersRepository) { }
+
+    public async execute({ name, coordinator_id }: IRequestDTO): Promise<Rper> {
+        const findRperWithSameName = await this.rpersRepository.findRperByName(name);
 
         if (findRperWithSameName) {
             throw new AppError("RPER with same name already exists.");
         }
 
-        const rper = rpersRepository.create({
+        const rper = await this.rpersRepository.create({
             name,
             coordinator_id,
         });
-
-        await rpersRepository.save(rper);
 
         return rper;
     }
