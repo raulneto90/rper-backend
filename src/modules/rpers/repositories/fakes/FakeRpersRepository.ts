@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 import IRpersRepository from '@modules/rpers/repositories/IRpersRepository'
 import ICreateRperDTO from '@modules/rpers/dtos/ICreateRperDTO';
