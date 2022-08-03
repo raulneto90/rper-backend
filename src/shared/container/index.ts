@@ -1,5 +1,7 @@
 import { container } from 'tsyringe';
 
+import '@modules/users/providers';
+
 import IRpersRepository from '@modules/rpers/repositories/IRpersRepository';
 import RpersRepository from '@modules/rpers/infra/typeorm/repositories/RpersRepository';
 
