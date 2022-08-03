@@ -24,4 +24,11 @@ describe('CreateUser', () => {
         await createUser.execute({ name: 'John Doe', email: 'johndoe@example.com', password: '123456' });
         expect(createUser.execute({ name: 'John Doe Two', email: 'johndoe@example.com', password: '654321' })).rejects.toBeInstanceOf(AppError);
     });
+
+    it('should not allow the password to be empty', async () => {
+        const fakeUsersRepository = new FakeUsersRepository();
+        const createUser = new CreateUserService(fakeUsersRepository);
+
+        expect(createUser.execute({ name: 'John Doe Two', email: 'johndoe@example.com', password: '' })).rejects.toBeInstanceOf(AppError);
+    });
 });
