@@ -2,12 +2,18 @@ import FakeRpersRepository from '../repositories/fakes/FakeRpersRepository'
 import CreateRperService from './CreateRperService';
 import AppError from '@shared/errors/AppError';
 
+let fakeRpersRepository: FakeRpersRepository;
+let createRper: CreateRperService;
 
 describe('CreateRper', () => {
-    it('should be able to create a new RPER', async () => {
-        const fakeRpersRepository = new FakeRpersRepository();
-        const createRper = new CreateRperService(fakeRpersRepository);
+    beforeEach(() => {
+        fakeRpersRepository = new FakeRpersRepository();
+        createRper = new CreateRperService(
+            fakeRpersRepository,
+        );
+    });
 
+    it('should be able to create a new RPER', async () => {
         const rper = await createRper.execute({ name: "rper name example one", coordinator_id: "123456" });
 
         expect(rper).toHaveProperty('id');
@@ -16,9 +22,6 @@ describe('CreateRper', () => {
     });
 
     it('should not allow two RPERs with the same name', async () => {
-        const fakeRpersRepository = new FakeRpersRepository();
-        const createRper = new CreateRperService(fakeRpersRepository);
-
         await createRper.execute({ name: "rper name example one", coordinator_id: "123456" });
 
         expect(createRper.execute({ name: "rper name example one", coordinator_id: "789012" })).rejects.toBeInstanceOf(AppError);
