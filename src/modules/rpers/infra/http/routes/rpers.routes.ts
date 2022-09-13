@@ -10,6 +10,7 @@ const rpersController = new RpersController();
 rpersRouter.use(ensureAuthenticated);
 
 rpersRouter.post("/", rpersController.create);
+rpersRouter.get("/", rpersController.index);
 
 export default rpersRouter;
 

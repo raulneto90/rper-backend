@@ -29,6 +29,13 @@ class RpersRepository implements IRpersRepository {
         return rper;
     }
 
+    public async findAllRpers(): Promise<Rper[]> {
+        let { rpers } = this;
+        rpers = this.rpers.map(el => el);
+
+        return rpers;
+    }
+
 }
 
 export default RpersRepository;
