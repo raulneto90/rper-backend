@@ -29,6 +29,13 @@ class FakeUsersRepository implements IUsersRepository {
         return user;
     }
 
+    public async findAllUsers(): Promise<User[]> {
+        let { users } = this
+        users = this.users.map(el => el);
+
+        return users;
+    }
+
 }
 
 export default FakeUsersRepository;

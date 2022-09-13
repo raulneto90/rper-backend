@@ -28,6 +28,7 @@ const upload = multer(uploadConfig);
 // });
 
 usersRouter.post("/", usersController.create);
+usersRouter.get("/", ensureAuthenticated, usersController.index);
 
 usersRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'), userAvatarController.update);
 

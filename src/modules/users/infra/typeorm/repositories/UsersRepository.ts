@@ -50,6 +50,26 @@ class UsersRepository implements IUsersRepository {
         return this.ormRepository.save(user);
     }
 
+    public async findAllUsers(): Promise<User[]> {
+        const users = await this.ormRepository.find();
+        const usersNoPassword = users.map(el => {
+            let userNoPassword = Object.assign({}, {
+                name: el.name,
+                avatar: el.avatar,
+                created_at: el.created_at,
+                email: el.email,
+                updated_at: el.updated_at,
+                user_id: el.user_id,
+                password: el.password
+            });
+
+            delete userNoPassword.password;
+
+            return userNoPassword;
+        });
+
+        return usersNoPassword;
+    }
 }
 
 export default UsersRepository;

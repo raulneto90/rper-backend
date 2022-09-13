@@ -28,7 +28,7 @@ describe('ListRpers', () => {
         expect(rpersList).toEqual([rper1, rper2]);
     })
 
-    it('should not throw error if there is no rpers registered', async () => {
+    it('should throw error if there is no rpers registered', async () => {
         await expect(
             listRpers.execute(),
         ).rejects.toBeInstanceOf(AppError);
