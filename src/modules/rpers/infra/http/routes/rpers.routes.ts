@@ -1,4 +1,5 @@
-import { Router } from "express";
+import { Router } from 'express';
+import { celebrate, Segments, Joi } from 'celebrate';
 
 import ensureAuthenticated from "@modules/users/infra/http/middlewares/ensureAuthenticated";
 import RpersController from '../controllers/RpersController';
@@ -9,7 +10,14 @@ const rpersController = new RpersController();
 //Middleware to ensure the user is logged in before listing RPERs and Creating new one.
 rpersRouter.use(ensureAuthenticated);
 
-rpersRouter.post("/", rpersController.create);
+rpersRouter.post(
+    "/",
+    celebrate({
+        [Segments.BODY]: {
+            name: Joi.string().required(),
+            coordinator_id: Joi.string().uuid().required()
+        }
+    }), rpersController.create);
 rpersRouter.get("/", rpersController.index);
 
 export default rpersRouter;
