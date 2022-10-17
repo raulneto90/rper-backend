@@ -1,0 +1,15 @@
+services:
+  database:
+    image: postgres
+    container_name: rper-database
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=rper
+    volumes:
+      - pgdata:/var/lib/postgres
+
+volumes:
+  pgdata:
