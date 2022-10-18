@@ -7,6 +7,8 @@ import {
   ManyToOne,
   JoinColumn,
   OneToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 import User from '@modules/users/infra/typeorm/entities/User';
@@ -27,6 +29,14 @@ class Rper {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'coordinator_id' })
   coordinator: User;
+
+  @ManyToMany(() => User)
+  @JoinTable({
+    name: 'rper_teams',
+    joinColumns: [{ name: 'rper_id' }],
+    inverseJoinColumns: [{ name: 'user_id' }],
+  })
+  teams: User[];
 
   @OneToOne(() => RperSecondaryData, secondaryData => secondaryData.rper)
   @JoinColumn({ name: 'rper_id' })
