@@ -30,7 +30,7 @@ class Rper {
   @JoinColumn({ name: 'coordinator_id' })
   coordinator: User;
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, { eager: true })
   @JoinTable({
     name: 'rper_teams',
     joinColumns: [{ name: 'rper_id' }],

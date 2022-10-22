@@ -5,10 +5,13 @@ import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAut
 
 import { CreateRpersTeamsController } from '../controllers/CreateRpersTeamsController';
 import RpersController from '../controllers/RpersController';
+import { UpdateRperController } from '../controllers/UpdateRperController';
+import { ensurePermission } from '../middlewares/ensurePermission';
 
 const rpersRouter = Router();
 const rpersController = new RpersController();
 const createRpersTeamsController = new CreateRpersTeamsController();
+const updateRperController = new UpdateRperController();
 
 // Middleware to ensure the user is logged in before listing RPERs and Creating new one.
 rpersRouter.use(ensureAuthenticated);
@@ -35,6 +38,8 @@ rpersRouter.post(
   }),
   createRpersTeamsController.handle,
 );
+
+rpersRouter.put('/', ensurePermission, updateRperController.handle);
 
 export default rpersRouter;
 
