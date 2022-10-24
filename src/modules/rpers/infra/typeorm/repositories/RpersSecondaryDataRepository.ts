@@ -21,4 +21,12 @@ export class RpersSecondaryDataRepository
 
     return secondaryData;
   }
+
+  async findByRperId(rper_id: string): Promise<RperSecondaryData> {
+    return this.ormRepository.findOne({ rper_id });
+  }
+
+  async update(rperSecondaryData: RperSecondaryData): Promise<void> {
+    await this.ormRepository.save(rperSecondaryData);
+  }
 }

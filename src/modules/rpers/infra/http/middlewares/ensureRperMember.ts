@@ -4,13 +4,13 @@ import AppError from '@shared/errors/AppError';
 
 import RpersRepository from '../../typeorm/repositories/RpersRepository';
 
-export async function ensurePermission(
+export async function ensureRperMember(
   request: Request,
   response: Response,
   next: NextFunction,
 ) {
-  const userId = request.user.id;
-  const { rper_id } = request.body;
+  const user_id = request.user.id;
+  const { rper_id } = request.params;
 
   const rpersRepository = new RpersRepository();
 
@@ -21,11 +21,13 @@ export async function ensurePermission(
   }
 
   if (
-    rper.coordinator_id !== userId ||
-    !rper.teams?.find(rper => rper.user_id === userId)
+    rper.coordinator_id !== user_id ||
+    !!rper.teams?.find(rper => rper.user_id === user_id)
   ) {
     throw new AppError('User does not have permission to alter rper', 403);
   }
 
   return next();
 }
+
+// ensureAuthenticated -> ensurePermission -> handle

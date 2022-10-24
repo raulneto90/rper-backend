@@ -6,7 +6,7 @@ import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAut
 import { CreateRpersTeamsController } from '../controllers/CreateRpersTeamsController';
 import RpersController from '../controllers/RpersController';
 import { UpdateRperController } from '../controllers/UpdateRperController';
-import { ensurePermission } from '../middlewares/ensurePermission';
+import { ensureRperMember } from '../middlewares/ensureRperMember';
 
 const rpersRouter = Router();
 const rpersController = new RpersController();
@@ -39,7 +39,20 @@ rpersRouter.post(
   createRpersTeamsController.handle,
 );
 
-rpersRouter.put('/', ensurePermission, updateRperController.handle);
+rpersRouter.put(
+  '/:rper_id/secondary-data',
+  celebrate({
+    [Segments.BODY]: {
+      content: Joi.string().required(),
+      status: Joi.string().required(),
+    },
+    [Segments.PARAMS]: {
+      rper_id: Joi.string().uuid().required(),
+    },
+  }),
+  ensureRperMember,
+  updateRperController.handle,
+);
 
 export default rpersRouter;
 
