@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -30,5 +31,6 @@ export class RperSecondaryData {
   updated_at: Date;
 
   @OneToOne(() => Rper, rper => rper.secondaryData)
+  @JoinColumn({ name: 'rper_id' })
   rper: Rper;
 }

@@ -39,7 +39,6 @@ class Rper {
   teams: User[];
 
   @OneToOne(() => RperSecondaryData, secondaryData => secondaryData.rper)
-  @JoinColumn({ name: 'rper_id' })
   secondaryData: RperSecondaryData;
 
   @CreateDateColumn()
